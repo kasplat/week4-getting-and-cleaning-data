@@ -1,61 +1,37 @@
 # week4-getting-and-cleaning-data
 ## Files in this repo
 
-* README.md -- you are reading it right now
+* README.md -- this file
 * CodeBook.md -- codebook describing variables, the data and transformations
 * run_analysis.R -- actual R code
 
+#Intro
+This script's purpose is to perform some introductory data cleaning for Week 4 of the online Coursera course "Getting and Cleaning Data".
 
-## Description of the DATA
-The features selected for this database come from the accelerometer and gyroscope 3-axial raw signals tAcc-XYZ and tGyro-XYZ. These time domain signals (prefix ‘t’ to denote time) were captured at a constant rate of 50 Hz. and the acceleration signal was then separated into body and gravity acceleration signals (tBodyAcc-XYZ and tGravityAcc-XYZ) – both using a low pass Butterworth filter.
+This script was initially ran on a windows machine, but was moved to a linux machine running ubuntu because of issues with the dplyr package on this data set. If you get a "negative vector" error for the last step, you will need to test on a linux machine.
 
-The body linear acceleration and angular velocity were derived in time to obtain Jerk signals (tBodyAccJerk-XYZ and tBodyGyroJerk-XYZ). Also the magnitude of these three-dimensional signals were calculated using the Euclidean norm (tBodyAccMag, tGravityAccMag, tBodyAccJerkMag, tBodyGyroMag, tBodyGyroJerkMag).
+##Setup
+The run_analysis.R script must be in the same directory as the "test" and "train" directories. 
 
-A Fast Fourier Transform (FFT) was applied to some of these signals producing fBodyAcc-XYZ, fBodyAccJerk-XYZ, fBodyGyro-XYZ, fBodyAccJerkMag, fBodyGyroMag, fBodyGyroJerkMag. (Note the ‘f’ to indicate frequency domain signals).
+##Script Process
+###Merging the data
+First the script is merged. This is done by reading in all of the training and testing data that will be used later. None of the files from the "Inertial Signal" folder are used because it is instructed that they should be removed in a later step anyways. They are combined using rbind, then combined with the labels using cbind. 
 
-### Description of abbreviations of measurements
-*leading t or f is based on time or frequency measurements.
-*Body = related to body movement.
-*Gravity = acceleration of gravity
-*Acc = accelerometer measurement
-*Gyro = gyroscopic measurements
-*Jerk = sudden movement acceleration
-*Mag = magnitude of movement
-*mean and SD are calculated for each subject for each activity for each mean and SD measurements.
+###Naming the data
+The feature names are taken from the features.txt file. They are then mapped to the corresponding names on the dataset. 
 
-The units given are g’s for the accelerometer and rad/sec for the gyro and g/sec and rad/sec/sec for the corresponding jerks.
+###Extracing the data
+The mean and standard deviation data are extracted using basic R extraction. a function is made to create the logical vector that describes whether or not the name of a column contains "mean" or "std" (the columns that will be mean and std columns). Then they are extracted.
 
-These signals were used to estimate variables of the feature vector for each pattern:
-‘-XYZ’ is used to denote 3-axial signals in the X, Y and Z directions. They total 33 measurements including the 3 dimensions - the X,Y, and Z axes.
+###Renaming the activities
+The activity labels are taken from the activity_labels.txt file. Then they are mapped properly using mutate and factor to the dataset.
 
-* tBodyAcc-XYZ
-* tGravityAcc-XYZ
-* tBodyAccJerk-XYZ
-* tBodyGyro-XYZ
-* tBodyGyroJerk-XYZ
-* tBodyAccMag
-* tGravityAccMag
-* tBodyAccJerkMag
-* tBodyGyroMag
-* tBodyGyroJerkMag
-* fBodyAcc-XYZ
-* fBodyAccJerk-XYZ
-* fBodyGyro-XYZ
-* fBodyAccMag
-* fBodyAccJerkMag
-* fBodyGyroMag
-* fBodyGyroJerkMag
+###Renaming the variables
+A variety of regular expressions were used to expand the variable names to make them more clear. Whitespace is trimmed at the end to make sure it is easy for later use. 
 
-The set of variables that were estimated from these signals are:
+###Getting the means
+The tidy data is just the mean of each activity and participant. Using the group_by and summarise_all will get the means of each variable by activity then ID.
 
-* mean(): Mean value
-* std(): Standard deviation
-
-Data Set Information:
-
-The experiments have been carried out with a group of 30 volunteers within an age bracket of 19-48 years. Each person performed six activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded accelerometer and gyroscope, we captured 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz. The experiments have been video-recorded to label the data manually. The obtained dataset has been randomly partitioned into two sets, where 70% of the volunteers was selected for generating the training data and 30% the test data.
-
-The sensor signals (accelerometer and gyroscope) were pre-processed by applying noise filters and then sampled in fixed-width sliding windows. From each window, a vector of features was obtained by calculating variables from the time and frequency domain.
 
 ## librarys used in run_analysis.R
 
