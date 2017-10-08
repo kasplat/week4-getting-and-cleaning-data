@@ -11,7 +11,10 @@ This script's purpose is to perform some introductory data cleaning for Week 4 o
 This script was initially ran on a windows machine, but was moved to a linux machine running ubuntu because of issues with the dplyr package on this data set. If you get a "negative vector" error for the last step, you will need to test on a linux machine.
 
 ##Setup
-The run_analysis.R script must be in the same directory as the "test" and "train" directories. 
+The run_analysis.R script must be in the same directory as the "test" and "train" directories. Then run it using standard R (from the command line, you can do "r -e "run_analysis.R"). The tidy data will be stored in a file called "TidyData.txt". To read this file, you can run the following code in R (from the directory that TidyData.txt is in):
+    data <- read.table("TidyData.txt", header = TRUE)
+    View(data)
+    
 
 ##Script Process
 ###Merging the data
