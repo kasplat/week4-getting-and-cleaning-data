@@ -36,7 +36,6 @@ activity_names <- read.table("activity_labels.txt", header = FALSE)
 full_cleaned <- mutate(full_cleaned, activity_ID = as.character(factor(activity_ID, levels = 1:6, labels = activity_names$V2)))
 
 #rename the variables to make them descriptive
-names(full_cleaned)
 names(full_cleaned) <- sub("^t", "Time ", names(full_cleaned))
 names(full_cleaned) <- sub("^f", "FFT ", names(full_cleaned))
 names(full_cleaned) <- gsub("Body", "Body ", names(full_cleaned))
